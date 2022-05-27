@@ -120,7 +120,7 @@ def add_review(request, dealer_id):
     context["dealer"] = dealer
     if request.method == 'GET':
         # Get cars for the dealer
-        cars = CarModel.objects.filter(id=dealer_id)
+        cars = CarModel.objects.filter(dealer_id=dealer_id)
         print(cars)
         context["cars"] = cars
         
@@ -142,12 +142,12 @@ def add_review(request, dealer_id):
                 if request.POST["purchasecheck"] == 'on':
                     payload["purchase"] = True
             payload["purchase_date"] = request.POST["purchasedate"]
-            payload["car_make"] = car.make.name
+            payload["car_make"] = car.car_make.name
             payload["car_model"] = car.name
             payload["car_year"] = int(car.year.strftime("%Y"))
 
             new_payload = {}
             new_payload["review"] = payload
-            review_post_url = "https://53c4f092.eu-gb.apigw.appdomain.cloud/api/review"
+            review_post_url = "https://2061e0f3.us-east.apigw.appdomain.cloud/api/review"
             post_request(review_post_url, new_payload, id=dealer_id)
-        return redirect("djangoapp:dealer_details", id=dealer_id)
+        return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
