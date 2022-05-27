@@ -28,6 +28,7 @@ class CarMake(models.Model):
 # - __str__ method to print a car make object
 
 class CarModel(models.Model):
+
     car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
     dealer_id = models.IntegerField()
     name = models.CharField(max_length=50)
@@ -76,3 +77,20 @@ class CarDealer:
         return "Dealer name: " + self.full_name
 
 # <HINT> Create a plain Python class `DealerReview` to hold review data
+class DealerReview:
+
+    def __init__(self, id, name, dealership, review, sentiment, purchase=False, purchase_date='', car_make= '', car_model='', car_year=''):
+        self.id = id
+        self.name = name
+        self.dealership = dealership
+        self.review = review
+        self.sentiment = sentiment
+        self.purchase = purchase
+        self.purchase_date = purchase_date
+        self.car_make = car_make
+        self.car_model = car_model
+        self.car_year = car_year
+
+    def __str__(self):
+        return "Review Name: " + self.name + \
+            "Review: " + self.review
