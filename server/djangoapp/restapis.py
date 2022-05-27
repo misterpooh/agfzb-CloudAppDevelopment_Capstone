@@ -1,8 +1,9 @@
 import requests
 import json
 from .models import CarDealer, CarMake, CarModel, DealerReview
-# import related models here
 from requests.auth import HTTPBasicAuth
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_watson import NaturalLanguageUnderstandingV1
 
 
 # Create a `get_request` to make HTTP GET requests
@@ -113,9 +114,9 @@ def get_dealer_reviews_from_cf(url, dealer_id):
 def analyze_review_sentiments(text):
     URL = "https://api.us-east.natural-language-understanding.watson.cloud.ibm.com/instances/7e897db6-c0d5-42a3-ab54-2cbe8dd71107"
     API_KEY = "2SyPgouDeFOGKbJKTOTdzjupyjOFlgqMQhMJBg3IFNoI"
-    authenticator = IAMAuthenticator(api_key)
+    authenticator = IAMAuthenticator(API_KEY)
     natural_language_understanding = NaturalLanguageUnderstandingV1(version='2022-05-25',authenticator=authenticator)
-    natural_language_understanding.set_service_url(url)
+    natural_language_understanding.set_service_url(URL)
     response = natural_language_understanding.analyze( text=text+"hello hello hello",features=Features(sentiment=SentimentOptions(targets=[text+"hello hello hello"]))).get_result()
     label=json.dumps(response, indent=2)
     label = response['sentiment']['document']['label']
